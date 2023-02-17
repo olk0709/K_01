@@ -8,16 +8,24 @@ open class Person constructor(val name:String="defaultName", var age:Int=20) {
     lateinit var  testParam2:String
 
     fun test(testParam:String){
+        testParam2 ="weee"
         val testParam3=testParam2
+
+        val data1 = Data(1,1,1)
+        val data2 = data1
+        data2.age = 100
+    }
+    var p:String = ""
+    get() {
+        return field
+    }
+    set(p0:String) {
+        field = p0
     }
 
     constructor(name: String, are: Int, descr:String):this(name, are){
         testParam2 = "qwerty"
     }
-}
-
-fun test(testParam:String){
-
 }
 
 class Student(name: String, are: Int) : Person(name, are), View.OnClickListener, Testable1{
