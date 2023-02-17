@@ -3,10 +3,7 @@ package com.example.k_01
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.k_01.lesson1.Data
-import com.example.k_01.lesson1.DataBase
-import com.example.k_01.lesson1.Person
-import com.example.k_01.lesson1.test
+import com.example.k_01.lesson1.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,5 +20,11 @@ class MainActivity : AppCompatActivity() {
         Log.d("mylogs", "${data1.age}")
         Log.d("mylogs", "${data2.age}")
         Log.d("mylogs", "${DataBase.getTest()}")
+        Log.d("mylogs", "${DataBase.getTestIf()}")
+        Log.d("mylogs", "${DataBase.getTestWhen(TestEnum.test1)}")
+
+        DataBase.getTestCycle()
+
+
     }
 }

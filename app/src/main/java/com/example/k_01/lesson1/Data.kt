@@ -1,5 +1,6 @@
 package com.example.k_01.lesson1
 
+import android.util.Log
 import android.view.View
 
 data class Data(val id:Int, var age:Int, val weight:Int=20)
@@ -12,6 +13,57 @@ enum class TestEnum{
 }
 
 object DataBase{
+
+    fun getTestCycle(){
+        val list = listOf(1,2,3,4,5,6,7)
+        for (one in list){
+            Log.d("mylogs","$one getTestCycle")
+        }
+        list.forEach{
+            Log.d("mylogs","$it getTestCycle")
+        }
+
+        list.forEach{ one: Int ->
+            Log.d("mylogs","$one getTestCycle")
+        }
+
+        repeat(10){
+            Log.d("mylogs","$it getTestCycle")
+        }
+
+        val test = 1..10
+        for(i in 1..10){
+            Log.d("mylogs","$i getTestCycle")
+        }
+
+        for(i in 1 until 10){
+            Log.d("mylogs","$i getTestCycle")
+        }
+
+        for(i in 10 downTo  1){
+            Log.d("mylogs","$i getTestCycle")
+        }
+
+        for(i in 1 until 10 step 2){
+            Log.d("mylogs","$i getTestCycle")
+        }
+
+        for(i in 10 downTo  1 step 3){
+            Log.d("mylogs","$i getTestCycle")
+        }
+
+        var counter = 10
+        while (counter -->0){
+            Log.d("mylogs","$counter getTestCycle")
+        }
+
+        counter = 10
+        do {
+            Log.d("mylogs","$counter getTestCycle")
+        }while (counter -->0)
+
+    }
+
     fun getTest():String{
         val result = if (0==0){
             return "test"
