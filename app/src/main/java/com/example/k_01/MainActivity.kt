@@ -3,12 +3,15 @@ package com.example.k_01
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Toast
 import com.example.k_01.lesson1.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         test("")
 
         Person(name = "anotherName", age=25)
@@ -25,6 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         DataBase.getTestCycle()
 
-
     }
+
+    fun toastMe(view: View){
+        val myToast = Toast.makeText(this,"Нажал   , так нажал!", Toast.LENGTH_SHORT)
+        myToast.show()
+    }
+
 }
