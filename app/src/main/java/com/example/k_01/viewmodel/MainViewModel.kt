@@ -8,6 +8,7 @@ import java.lang.Thread.sleep
 class MainViewModel(private val liveData:MutableLiveData <AppState> = MutableLiveData()):ViewModel() {
 
     fun getData(): LiveData<AppState>{
+        //Наша livedata
         return liveData
     }
 

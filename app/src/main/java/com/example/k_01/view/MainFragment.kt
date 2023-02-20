@@ -11,15 +11,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.k_01.databinding.FragmentMainBinding
 import com.example.k_01.viewmodel.AppState
 import com.example.k_01.viewmodel.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 
-
+//Наш фрагмент
 class MainFragment : Fragment() {
 
-    lateinit var binding:FragmentMainBinding //утечка памяти
+    // создаем livedata
+    lateinit var binding:FragmentMainBinding
 
     override fun onDestroy(){
         super.onDestroy()
-        //binding = null
+        //binding = null   надо найти, как занулить(
     }
 
     override fun onCreateView(
@@ -38,25 +40,31 @@ class MainFragment : Fragment() {
       //  binding.btnOne.setOnClickListener{}
        // view.findViewById<Button>(R.id.btnOne).setOnClickListener{}
 
+        // создаем livedata если ее не существует с с пом-ю ViewModelProvider
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         //val observer = Observer<Any>{renderData(it)}
 
         val observer = object: Observer<AppState> {
             override fun onChanged(data: AppState) {
+                // получаем ответ на запрос :55
                 renderData(data)
             }
         }
-        viewModel.getData().observe(viewLifecycleOwner, observer)
 
+        //пробуем получить livedata . пробуем подписаться на  livedata
+        viewModel.getData().observe(viewLifecycleOwner, observer)
+        //в viewModel посылаем запрос на погоду goto: 55
         viewModel.getWeather()
     }
 
+    //По ответу :55 формируем внешний вид приложения
     private fun renderData(data:AppState){
 
         when(data){
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 binding.message.text = "НЕ получилось ${data.error}"
+                Snackbar.make(binding.mainView, "НЕ получилось ${data.error}", Snackbar.LENGTH_LONG).show()
             }
             is AppState.Loading -> {
                 //пошла загрузка (ProgressBar)
@@ -67,6 +75,7 @@ class MainFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 //отображение результата
                 binding.message.text = "Получилось"
+                Snackbar.make(binding.mainView, "Получилось", Snackbar.LENGTH_LONG).show()
                // Toast.makeText(requireContext(),"Работает", Toast.LENGTH_SHORT).show()
             }
 
