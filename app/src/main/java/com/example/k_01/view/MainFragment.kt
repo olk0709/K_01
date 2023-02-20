@@ -63,7 +63,7 @@ class MainFragment : Fragment() {
         when(data){
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
-                binding.message.text = "НЕ получилось ${data.error}"
+                //binding.message.text = "НЕ получилось ${data.error}"
                 Snackbar.make(binding.mainView, "НЕ получилось ${data.error}", Snackbar.LENGTH_LONG).show()
             }
             is AppState.Loading -> {
@@ -74,7 +74,12 @@ class MainFragment : Fragment() {
 
                 binding.loadingLayout.visibility = View.GONE
                 //отображение результата
-                binding.message.text = "Получилось"
+               // binding.message.text = "Получилось"
+                binding.temperatureValue.text = data.weatherData.temperature.toString()
+                binding.feelsLikeValue.text = data.weatherData.feelsLike.toString()
+                binding.cityCoordinates.text = "${data.weatherData.city.lat} ${data.weatherData.city.lon}  "
+
+
                 Snackbar.make(binding.mainView, "Получилось", Snackbar.LENGTH_LONG).show()
                // Toast.makeText(requireContext(),"Работает", Toast.LENGTH_SHORT).show()
             }
