@@ -3,13 +3,11 @@ package com.example.k_01.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.k_01.repository.Repository
 import com.example.k_01.repository.RepositoryImpl
-import java.lang.Thread.sleep
 
 class MainViewModel(
-    private val liveData:MutableLiveData <AppState> = MutableLiveData(),
-    private val repository: RepositoryImpl = RepositoryImpl
+    private val liveData: MutableLiveData<AppState> = MutableLiveData(),
+    private val repository: RepositoryImpl = RepositoryImpl()
     ):
     ViewModel() {
 
@@ -23,7 +21,7 @@ class MainViewModel(
           liveData.postValue(AppState.Loading)
 
           if((0..10).random()>5)
-              liveData.postValue(AppState.Success(AppState.Success(repository.getWeatherFromServer()))
+              liveData.postValue(AppState.Success(repository.getWeatherFromServer()))
           else
               liveData.postValue(AppState.Error(IllegalAccessException()))
       }.start()

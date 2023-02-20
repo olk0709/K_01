@@ -77,9 +77,7 @@ class MainFragment : Fragment() {
                // binding.message.text = "Получилось"
                 binding.temperatureValue.text = data.weatherData.temperature.toString()
                 binding.feelsLikeValue.text = data.weatherData.feelsLike.toString()
-                binding.cityCoordinates.text = "${data.weatherData.city.lat} ${data.weatherData.city.lon}  "
-
-
+                binding.cityCoordinates.text = "${data.weatherData.сity.lat} ${data.weatherData.сity.lon}"
                 Snackbar.make(binding.mainView, "Получилось", Snackbar.LENGTH_LONG).show()
                // Toast.makeText(requireContext(),"Работает", Toast.LENGTH_SHORT).show()
             }
