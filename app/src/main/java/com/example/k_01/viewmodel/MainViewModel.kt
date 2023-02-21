@@ -20,8 +20,10 @@ class MainViewModel(
       Thread{
           liveData.postValue(AppState.Loading)
 
-          if((0..10).random()>5)
-              liveData.postValue(AppState.Success(repository.getWeatherFromServer()))
+          if((0..10).random()>5) {
+              val answer = repository.getWeatherFromServer()
+              liveData.postValue(AppState.Success(answer))
+          }
           else
               liveData.postValue(AppState.Error(IllegalAccessException()))
       }.start()
