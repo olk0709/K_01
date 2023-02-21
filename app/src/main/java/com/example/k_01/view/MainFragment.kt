@@ -75,6 +75,7 @@ class MainFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 //отображение результата
                // binding.message.text = "Получилось"
+                binding.cityName.text=data.weatherData.сity.name.toString()
                 binding.temperatureValue.text = data.weatherData.temperature.toString()
                 binding.feelsLikeValue.text = data.weatherData.feelsLike.toString()
                 binding.cityCoordinates.text = "${data.weatherData.сity.lat} ${data.weatherData.сity.lon}"
