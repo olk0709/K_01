@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.k_01.databinding.FragmentWeatherListBinding
+import com.example.k_01.repository.Weather
 
 //Наш фрагмент
 class DetailsFragment : Fragment() {
@@ -34,6 +35,7 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments.
     }
 
     //По ответу :55 формируем внешний вид приложения
@@ -68,6 +70,11 @@ class DetailsFragment : Fragment() {
 */
     companion object {
         @JvmStatic
-        fun newInstance() = DetailsFragment()
+        fun newInstance(bundle: Bundle):DetailsFragment {
+
+            val fragment = DetailsFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

@@ -10,12 +10,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.k_01.R
 import com.example.k_01.databinding.FragmentWeatherListBinding
+import com.example.k_01.repository.Weather
 import com.example.k_01.viewmodel.AppState
 import com.example.k_01.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
 //Наш фрагмент
-class WeatherListFragment : Fragment() {
+class WeatherListFragment : Fragment(), OnItemListClickListener {
 
     // создаем livedata
     private var _binding:FragmentWeatherListBinding?=null
@@ -24,7 +25,7 @@ class WeatherListFragment : Fragment() {
         return _binding!!
     }
 
-    val adapter = WeatherListAdapter()
+    val adapter = WeatherListAdapter(this)
 
     override fun onDestroy(){
         super.onDestroy()
@@ -116,5 +117,15 @@ class WeatherListFragment : Fragment() {
     companion object {
         @JvmStatic
         fun newInstance() = WeatherListFragment()
+    }
+
+    override fun onItemClick(weather: Weather) {
+        val bundle = Bundle()
+        bundle.putParcelable(KEY_BUNDDLE_WEATHER, weather)
+        requireActivity().supportFragmentManager.beginTransaction().add(
+            R.id.container,
+            DefaultFragment.newInstance(bundle)
+        ).addToBackStack("").commit()
+
     }
 }

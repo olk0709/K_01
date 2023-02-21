@@ -4,10 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.k_01.R
 import com.example.k_01.databinding.FragmentWeatherListRecyclerItemBinding
 import com.example.k_01.repository.Weather
+import com.example.k_01.view.MainActivity
+import com.example.k_01.view.details.DetailsFragment
 
-class WeatherListAdapter(private var data:List<Weather> = listOf()):RecyclerView.Adapter<WeatherListAdapter.CityHolder>() {
+class WeatherListAdapter(private val onItemListClickListener : OnItemListClickListener,
+    private var data:List<Weather> = listOf()):
+    RecyclerView.Adapter<WeatherListAdapter.CityHolder>() {
 
     fun setData(dataNew:List<Weather>){
         this.data = dataNew
@@ -26,10 +31,16 @@ class WeatherListAdapter(private var data:List<Weather> = listOf()):RecyclerView
 
     override fun getItemCount()=data.size
 
-    class CityHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class CityHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         fun bind(weather: Weather){
             val binding = FragmentWeatherListRecyclerItemBinding.bind(itemView)   //.apply {  }
             binding.tvcityName.text = weather.сity.name
+            binding.root.setOnClickListener{
+                (itemView.context as MainActivity).supportFragmentManager.beginTransaction().add(
+                    R.id.container,
+                    DetailsFragment.newInstance())
+                onItemListClickListener.onItemClick(weather)
+            }
         }
     }
 }
