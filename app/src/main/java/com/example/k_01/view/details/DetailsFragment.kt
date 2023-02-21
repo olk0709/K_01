@@ -1,16 +1,11 @@
-package com.example.k_01.view
+package com.example.k_01.view.details
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.k_01.databinding.FragmentWeatherListBinding
-import com.example.k_01.viewmodel.AppState
-import com.example.k_01.viewmodel.MainViewModel
-import com.google.android.material.snackbar.Snackbar
 
 //Наш фрагмент
 class DetailsFragment : Fragment() {

@@ -1,12 +1,14 @@
-package com.example.k_01.view
+package com.example.k_01.view.weatherlist
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.k_01.R
 import com.example.k_01.databinding.FragmentWeatherListBinding
 import com.example.k_01.viewmodel.AppState
 import com.example.k_01.viewmodel.MainViewModel
@@ -21,6 +23,8 @@ class WeatherListFragment : Fragment() {
     get() {
         return _binding!!
     }
+
+    val adapter = WeatherListAdapter()
 
     override fun onDestroy(){
         super.onDestroy()
@@ -37,11 +41,14 @@ class WeatherListFragment : Fragment() {
         return binding.root
     }
 
+    var isRussian = true
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
       //  binding.btnOne.setOnClickListener{}
        // view.findViewById<Button>(R.id.btnOne).setOnClickListener{}
+
+        binding.recyclerView.adapter = adapter
 
         // создаем livedata если ее не существует с с пом-ю ViewModelProvider
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -57,7 +64,19 @@ class WeatherListFragment : Fragment() {
         //пробуем получить livedata . пробуем подписаться на  livedata
         viewModel.getData().observe(viewLifecycleOwner, observer)
         //в viewModel посылаем запрос на погоду goto: 55
-        //viewModel.getWeather()
+        binding.floatingActionButton.setOnClickListener{
+            isRussian = !isRussian
+            if(isRussian){
+                viewModel.getWeatherRussia()
+                binding.floatingActionButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_russia))
+                    //resources.getDrawable(R.drawable.ic_russia) не подходит, т.к. работаем с текущим контекстом
+            }else{
+                binding.floatingActionButton.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_earth))
+                viewModel.getWeatherWorld()
+            }
+
+        }
+        viewModel.getWeatherRussia()
     }
 
     //По ответу :55 формируем внешний вид приложения
@@ -76,6 +95,9 @@ class WeatherListFragment : Fragment() {
             is AppState.Success -> {
 
                 binding.loadingLayout.visibility = View.GONE
+                //data.weatherList
+                adapter.setData(data.weatherList)
+
                 //отображение результата
                // binding.message.text = "Получилось!"
                 /*binding.cityName.text=data.weatherData.сity.name.toString()

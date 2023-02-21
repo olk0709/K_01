@@ -23,7 +23,8 @@ class MainViewModel(
       Thread{
           liveData.postValue(AppState.Loading)
 
-          if((0..10).random()>0) {
+          //if((0..10).random()>0) {
+          if(true) {
 
               //val answer = repository.getWeatherFromServer()
               val answer = if(!isRussian) repository.getWorldWeatherFromLocalStorage() else repository.getRussionWeatherFromLocalStorage()
