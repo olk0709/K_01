@@ -1,0 +1,19 @@
+package com.example.k_01.view
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import com.example.k_01.R
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // если 1-ый  запуск
+
+        if(savedInstanceState==null){
+            supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit()
+        }
+    }
+
+}
