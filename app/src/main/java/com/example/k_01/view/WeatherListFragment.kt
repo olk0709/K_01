@@ -5,20 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.k_01.databinding.FragmentMainBinding
+import com.example.k_01.databinding.FragmentWeatherListBinding
 import com.example.k_01.viewmodel.AppState
 import com.example.k_01.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
 //Наш фрагмент
-class MainFragment : Fragment() {
+class WeatherListFragment : Fragment() {
 
     // создаем livedata
-    private var _binding:FragmentMainBinding?=null
-    private val binding:FragmentMainBinding
+    private var _binding:FragmentWeatherListBinding?=null
+    private val binding:FragmentWeatherListBinding
     get() {
         return _binding!!
     }
@@ -32,7 +31,7 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentWeatherListBinding.inflate(inflater, container, false)
 
         //return inflater.inflate(R.layout.fragment_main, container, false)
         return binding.root
@@ -58,7 +57,7 @@ class MainFragment : Fragment() {
         //пробуем получить livedata . пробуем подписаться на  livedata
         viewModel.getData().observe(viewLifecycleOwner, observer)
         //в viewModel посылаем запрос на погоду goto: 55
-        viewModel.getWeather()
+        //viewModel.getWeather()
     }
 
     //По ответу :55 формируем внешний вид приложения
@@ -68,7 +67,7 @@ class MainFragment : Fragment() {
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 //binding.message.text = "НЕ получилось ${data.error}"
-                Snackbar.make(binding.mainView, "НЕ получилось ${data.error}", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, "НЕ получилось ${data.error}", Snackbar.LENGTH_LONG).show()
             }
             is AppState.Loading -> {
                 //пошла загрузка (ProgressBar)
@@ -79,11 +78,13 @@ class MainFragment : Fragment() {
                 binding.loadingLayout.visibility = View.GONE
                 //отображение результата
                // binding.message.text = "Получилось!"
-                binding.cityName.text=data.weatherData.сity.name.toString()
+                /*binding.cityName.text=data.weatherData.сity.name.toString()
                 binding.temperatureValue.text = data.weatherData.temperature.toString()
                 binding.feelsLikeValue.text = data.weatherData.feelsLike.toString()
                 binding.cityCoordinates.text = "${data.weatherData.сity.lat} ${data.weatherData.сity.lon}"
                 Snackbar.make(binding.mainView, "Получилось", Snackbar.LENGTH_LONG).show()
+
+                 */
                // Toast.makeText(requireContext(),"Работает", Toast.LENGTH_SHORT).show()
             }
 
@@ -92,6 +93,6 @@ class MainFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = MainFragment()
+        fun newInstance() = WeatherListFragment()
     }
 }

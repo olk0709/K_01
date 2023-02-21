@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         // если 1-ый  запуск
 
         if(savedInstanceState==null){
-            supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment.newInstance()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.container, WeatherListFragment.newInstance()).commit()
         }
     }
 
