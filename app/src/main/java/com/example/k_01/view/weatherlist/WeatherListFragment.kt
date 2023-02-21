@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.k_01.R
 import com.example.k_01.databinding.FragmentWeatherListBinding
 import com.example.k_01.repository.Weather
+import com.example.k_01.utils.KEY_BUNDLE_WEATHER
 import com.example.k_01.viewmodel.AppState
 import com.example.k_01.viewmodel.MainViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -121,7 +122,7 @@ class WeatherListFragment : Fragment(), OnItemListClickListener {
 
     override fun onItemClick(weather: Weather) {
         val bundle = Bundle()
-        bundle.putParcelable(KEY_BUNDDLE_WEATHER, weather)
+        bundle.putParcelable(KEY_BUNDLE_WEATHER, weather)
         requireActivity().supportFragmentManager.beginTransaction().add(
             R.id.container,
             DefaultFragment.newInstance(bundle)

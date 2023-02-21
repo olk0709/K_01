@@ -1,5 +1,6 @@
 package com.example.k_01.view.weatherlist
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.k_01.R
 import com.example.k_01.databinding.FragmentWeatherListRecyclerItemBinding
 import com.example.k_01.repository.Weather
+import com.example.k_01.utils.KEY_BUNDLE_WEATHER
 import com.example.k_01.view.MainActivity
 import com.example.k_01.view.details.DetailsFragment
 
@@ -36,9 +38,11 @@ class WeatherListAdapter(private val onItemListClickListener : OnItemListClickLi
             val binding = FragmentWeatherListRecyclerItemBinding.bind(itemView)   //.apply {  }
             binding.tvcityName.text = weather.сity.name
             binding.root.setOnClickListener{
+                val bundle = Bundle()
+                bundle.putParcelable(KEY_BUNDLE_WEATHER, weather)
                 (itemView.context as MainActivity).supportFragmentManager.beginTransaction().add(
                     R.id.container,
-                    DetailsFragment.newInstance())
+                    DetailsFragment.newInstance(bundle)).addToBackStack("").commit()
                 onItemListClickListener.onItemClick(weather)
             }
         }
