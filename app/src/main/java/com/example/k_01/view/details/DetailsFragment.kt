@@ -28,7 +28,7 @@ class DetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
 
         //return inflater.inflate(R.layout.fragment_main, container, false)
@@ -38,6 +38,10 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let{
+          renderData(it)
+        }
+
         val weather:Weather = requireArguments().getParcelable<Weather>(KEY_BUNDLE_WEATHER)!!
         renderData(weather)
     }

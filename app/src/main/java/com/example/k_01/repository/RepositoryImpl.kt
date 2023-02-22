@@ -14,7 +14,7 @@ class RepositoryImpl:Repository {
     }*/
 
     override fun getWorldWeatherFromLocalStorage() =  getWorldCities() //эмуляция ответа
-    }
+
     override fun getRussionWeatherFromLocalStorage() = getRussianCities()
-    }
+
 }
