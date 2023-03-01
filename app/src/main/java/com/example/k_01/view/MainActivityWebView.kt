@@ -46,6 +46,7 @@ class MainActivityWebView : AppCompatActivity() {
                     binding.webview.loadData(result, "text/html; utf-8","utf-8") //Загрузка полученных данных
                 }*/
                 Handler(Looper.getMainLooper()).post{  // 2ой способ
+                    binding.webview.settings.javaScriptEnabled = true
                     binding.webview.loadDataWithBaseURL(null,result,"text/html; utf-8","utf-8",null) //Загрузка полученных данных
                 }
 
@@ -55,7 +56,7 @@ class MainActivityWebView : AppCompatActivity() {
         }
     }
 
-    fun getLinesAsOneBigString(bufferedReader:BufferedReader):String{
+    private fun getLinesAsOneBigString(bufferedReader:BufferedReader):String{
         return bufferedReader.lines().collect(Collectors.joining("\n"))
     }
 }
