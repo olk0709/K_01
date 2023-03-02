@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class FactDTO(
     @SerializedName("condition")
     val condition: String,
-    @SerializedName("daytime)
-        val daytime: String,
+    @SerializedName("daytime")
+    val daytime: String,
     @SerializedName("feels_like")
     val feels_like: Int,
     @SerializedName("humidity")
@@ -24,7 +24,7 @@ data class FactDTO(
     @SerializedName("season")
     val season: String,
     @SerializedName("temp")
-    val temp: Int,
+    val temperature: Int,
     @SerializedName("wind_dir")
     val wind_dir: String,
     @SerializedName("wind_gust")
