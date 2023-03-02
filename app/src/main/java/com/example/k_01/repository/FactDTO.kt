@@ -23,7 +23,7 @@ data class FactDTO(
     val pressure_pa: Int,
     @SerializedName("season")
     val season: String,
-    @SerializedName("temp")
+    @SerializedName("temperature")
     val temperature: Int,
     @SerializedName("wind_dir")
     val wind_dir: String,

@@ -27,7 +27,7 @@ class WeatherLoader(private val onServerResponseListener: OnServerResponse) {
         }
 
         Thread{
-            try {
+            //try {
 
 
 
@@ -39,12 +39,14 @@ class WeatherLoader(private val onServerResponseListener: OnServerResponse) {
                 val weatherDTO:WeatherDTO = Gson().fromJson(buffer, WeatherDTO::class.java)
                 Handler(Looper.getMainLooper()).post { onServerResponseListener.onResponse(weatherDTO) }
 
-            }catch (e:JsonSyntaxException){
+            /*}catch (e:JsonSyntaxException){
                 // что-то пошло не так. Можно отправить на сервер ошибку)
             }
             finally {
                 urlConnection.disconnect()
             }
+
+             */
 
 
 
