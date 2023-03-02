@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.example.k_01.databinding.FragmentDetailsBinding
 import com.example.k_01.databinding.FragmentWeatherListBinding
 import com.example.k_01.repository.Weather
+import com.example.k_01.repository.WeatherDTO
+import com.example.k_01.repository.WeatherLoader
 import com.example.k_01.utils.KEY_BUNDLE_WEATHER
 
 //Наш фрагмент
@@ -39,7 +41,8 @@ class DetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let{
-          renderData(it)
+          //renderData(WeatherLoader().loadWeather(it.сity.lat, it.сity.lon))
+        renderData(it)
         }
 
         val weather:Weather = requireArguments().getParcelable<Weather>(KEY_BUNDLE_WEATHER)!!
