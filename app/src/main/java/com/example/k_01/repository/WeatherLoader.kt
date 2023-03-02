@@ -8,10 +8,11 @@ import java.io.InputStreamReader
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
-class WeatherLoader {
+class WeatherLoader(private val onServerResponseListener: OnServerResponse) {
 
-    fun loadWeather(lat:Double, lon:Double):WeatherDTO{
+    fun loadWeather(lat:Double, lon:Double){
 
+        Thread{
         // получил адрес
         val urlText = "https://api.weather.yandex.ru/v2/informers?lat=$lat&lon=$lon"
 
@@ -23,17 +24,15 @@ class WeatherLoader {
             readTimeout = 1000                      // set по капотом
         }
 
-        //Thread{
+
             val headers = urlConnection.headerFields
             //открываем поток
             val buffer = BufferedReader(InputStreamReader(urlConnection.inputStream)) //открыл коннект
             //val result = (buffer.toString())
             val weatherDTO:WeatherDTO = Gson().fromJson(buffer, WeatherDTO::class.java)
-            return weatherDTO
-          //  Handler(Looper.getMainLooper()).post{  // 2ой способ
-            //    }
+            onServerResponseListener.onResponse(weatherDTO)
 
-        //}.start()
+        }.start()
 
     }
 }

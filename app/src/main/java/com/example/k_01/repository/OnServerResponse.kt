@@ -1,5 +1,5 @@
 package com.example.k_01.repository
 
 fun interface OnServerResponse {
-    fun onResponse()
+    fun onResponse(weatherDTO: WeatherDTO)
 }

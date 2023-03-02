@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.k_01.databinding.FragmentDetailsBinding
 import com.example.k_01.databinding.FragmentWeatherListBinding
+import com.example.k_01.repository.OnServerResponse
 import com.example.k_01.repository.Weather
 import com.example.k_01.repository.WeatherDTO
 import com.example.k_01.repository.WeatherLoader
@@ -14,7 +15,7 @@ import com.example.k_01.utils.KEY_BUNDLE_WEATHER
 import com.google.android.material.snackbar.Snackbar
 
 //Наш фрагмент
-class DetailsFragment : Fragment() {
+class DetailsFragment : Fragment(), OnServerResponse {
 
     // создаем livedata
     private var _binding:FragmentDetailsBinding?=null
@@ -42,7 +43,10 @@ class DetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let{
             currentCityName = it.сity.name
-          renderData(WeatherLoader().loadWeather(it.сity.lat, it.сity.lon))
+            Thread{
+                WeatherLoader(this@DetailsFragment).loadWeather(it.сity.lat, it.сity.lon)
+            }.start()
+
         //renderData(it)
         }
 
@@ -84,5 +88,9 @@ class DetailsFragment : Fragment() {
             fragment.arguments = bundle
             return fragment
         }
+    }
+
+    override fun onResponse(weatherDTO: WeatherDTO) {
+        renderData(weatherDTO)
     }
 }
