@@ -1,5 +1,6 @@
 package com.example.k_01.view.details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -56,6 +57,7 @@ class DetailsFragment : Fragment(), OnServerResponse {
 
     //По ответу :55 формируем внешний вид приложения
 
+    @SuppressLint("SetTextI18n")
     private fun renderData(weather: WeatherDTO){
         with(binding){
             loadingLayout.visibility = View.GONE
