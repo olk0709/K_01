@@ -44,9 +44,8 @@ class WeatherLoader(private val onServerResponseListener: OnServerResponse) {
                     val buffer = BufferedReader(InputStreamReader(urlConnection.inputStream)) //открыл коннект
                     //val result = (buffer.toString())
                     val weatherDTO:WeatherDTO = Gson().fromJson(buffer, WeatherDTO::class.java)
-
-
-                    Handler(Looper.getMainLooper()).post { onServerResponseListener.onResponse(weatherDTO) }
+                    Handler(Looper.getMainLooper()).post {
+                        onServerResponseListener.onResponse(weatherDTO) }
                 }
 
 
