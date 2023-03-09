@@ -1,8 +1,10 @@
-package com.example.k_01.repository
-
+package com.example.k_01.repository.dto
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
-data class PartDTO(
+@Parcelize
+data class FactDTO(
     @SerializedName("condition")
     val condition: String,
     @SerializedName("daytime")
@@ -13,30 +15,22 @@ data class PartDTO(
     val humidity: Int,
     @SerializedName("icon")
     val icon: String,
-    @SerializedName("part_name")
-    val part_name: String,
+    @SerializedName("obs_time")
+    val obs_time: Int,
     @SerializedName("polar")
     val polar: Boolean,
-    @SerializedName("prec_mm")
-    val prec_mm: Int,
-    @SerializedName("prec_period")
-    val prec_period: Int,
-    @SerializedName("prec_prob")
-    val prec_prob: Int,
     @SerializedName("pressure_mm")
     val pressure_mm: Int,
     @SerializedName("pressure_pa")
     val pressure_pa: Int,
-    @SerializedName("temp_avg")
-    val temp_avg: Int,
-    @SerializedName("temp_max")
-    val temp_max: Int,
-    @SerializedName("temp_min")
-    val temp_min: Int,
+    @SerializedName("season")
+    val season: String,
+    @SerializedName("temperature")
+    val temperature: Int,
     @SerializedName("wind_dir")
     val wind_dir: String,
     @SerializedName("wind_gust")
     val wind_gust: Double,
     @SerializedName("wind_speed")
-    val wind_speed: Double
-)
+    val wind_speed: Int
+): Parcelable

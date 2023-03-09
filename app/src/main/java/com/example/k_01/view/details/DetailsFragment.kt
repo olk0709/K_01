@@ -1,19 +1,22 @@
 package com.example.k_01.view.details
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.k_01.databinding.FragmentDetailsBinding
-import com.example.k_01.databinding.FragmentWeatherListBinding
 import com.example.k_01.repository.OnServerResponse
 import com.example.k_01.repository.Weather
-import com.example.k_01.repository.WeatherDTO
-import com.example.k_01.repository.WeatherLoader
+import com.example.k_01.repository.dto.WeatherDTO
+import com.example.k_01.utils.KEY_BUNDLE_SERVICE_BROADCAST_WEATHER
 import com.example.k_01.utils.KEY_BUNDLE_WEATHER
-import com.google.android.material.snackbar.Snackbar
 
 //Наш фрагмент
 class DetailsFragment : Fragment(), OnServerResponse {
@@ -30,6 +33,18 @@ class DetailsFragment : Fragment(), OnServerResponse {
         _binding = null   //нашли, как занулить(
     }
 
+    //создаем приемник
+    val receiver = object :BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?){
+            intent?.let {intent ->
+                intent.getParcelableExtra<WeatherDTO>(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)?.let {
+                    onResponse(it)
+                }
+
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,11 +57,17 @@ class DetailsFragment : Fragment(), OnServerResponse {
     lateinit var currentCityName:String
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(receiver,
+        IntentFilter(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)
+        )
         arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let{
             currentCityName = it.сity.name
-            Thread{
-                WeatherLoader(this@DetailsFragment).loadWeather(it.сity.lat, it.сity.lon)
-            }.start()
+            //Thread{
+            //    WeatherLoader(this@DetailsFragment).loadWeather(it.сity.lat, it.сity.lon)
+            //}.start()
+            //старт сервиса
+            requireActivity().startService(Intent(requireContext(),DetailsService::class.java))
 
         //renderData(it)
         }
