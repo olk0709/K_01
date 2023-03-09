@@ -15,8 +15,7 @@ import com.example.k_01.databinding.FragmentDetailsBinding
 import com.example.k_01.repository.OnServerResponse
 import com.example.k_01.repository.Weather
 import com.example.k_01.repository.dto.WeatherDTO
-import com.example.k_01.utils.KEY_BUNDLE_SERVICE_BROADCAST_WEATHER
-import com.example.k_01.utils.KEY_BUNDLE_WEATHER
+import com.example.k_01.utils.*
 
 //Наш фрагмент
 class DetailsFragment : Fragment(), OnServerResponse {
@@ -31,6 +30,7 @@ class DetailsFragment : Fragment(), OnServerResponse {
     override fun onDestroy(){
         super.onDestroy()
         _binding = null   //нашли, как занулить(
+        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(receiver)
     }
 
     //создаем приемник
@@ -59,15 +59,18 @@ class DetailsFragment : Fragment(), OnServerResponse {
         super.onViewCreated(view, savedInstanceState)
 
         LocalBroadcastManager.getInstance(requireContext()).registerReceiver(receiver,
-        IntentFilter(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)
+        IntentFilter(KEY_WAVE_SERVICE_BROADCAST)
         )
         arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let{
             currentCityName = it.сity.name
             //Thread{
             //    WeatherLoader(this@DetailsFragment).loadWeather(it.сity.lat, it.сity.lon)
             //}.start()
-            //старт сервиса
-            requireActivity().startService(Intent(requireContext(),DetailsService::class.java))
+            //старт сервиса вместо WeatherLoader
+            requireActivity().startService(Intent(requireContext(),DetailsService::class.java).apply {
+                putExtra(KEY_BUNDLE_LAT,it.сity.lat)
+                putExtra(KEY_BUNDLE_LON,it.сity.lon)
+            })
 
         //renderData(it)
         }

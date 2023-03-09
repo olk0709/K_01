@@ -3,6 +3,7 @@ package com.example.k_01.view.details
 import android.app.IntentService
 import android.content.Intent
 import android.util.Log
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.example.k_01.BuildConfig
 import com.example.k_01.repository.dto.WeatherDTO
 import com.example.k_01.utils.*
@@ -16,8 +17,8 @@ class DetailsService(val name: String = ""): IntentService(name) {
     override fun onHandleIntent(intent: Intent?) {
         Log.d("@@@", "work MainService")
         intent?.let {
-            val lat = it.getStringArrayExtra(KEY_BUNDLE_LAT)
-            val lon = it.getStringArrayExtra(KEY_BUNDLE_LON)
+            val lat = it.getDoubleExtra(KEY_BUNDLE_LAT,0.0)
+            val lon = it.getDoubleExtra(KEY_BUNDLE_LON,0.0)
             Log.d("@@@", "work DetailsService $lat $lon")
 
 
@@ -48,12 +49,14 @@ class DetailsService(val name: String = ""): IntentService(name) {
             val buffer = BufferedReader(InputStreamReader(urlConnection.inputStream)) //открыл коннект
             val weatherDTO: WeatherDTO = Gson().fromJson(buffer, WeatherDTO::class.java)
 
-            val message = Intent(KEY_WAVE)
+            val message = Intent(KEY_WAVE_SERVICE_BROADCAST)
             message.putExtra(
                 KEY_BUNDLE_SERVICE_BROADCAST_WEATHER,
                 weatherDTO
             )
-            sendBroadcast(message)
+            //sendBroadcast(message) зарегистрирована глобально
+            LocalBroadcastManager.getInstance(this).sendBroadcast(message)
+
         }
 
     }
