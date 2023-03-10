@@ -1,6 +1,7 @@
 package com.example.k_01.view.details
 
 import android.annotation.SuppressLint
+import android.app.DownloadManager.Request
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -11,11 +12,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.k_01.BuildConfig
 import com.example.k_01.databinding.FragmentDetailsBinding
 import com.example.k_01.repository.OnServerResponse
 import com.example.k_01.repository.Weather
 import com.example.k_01.repository.dto.WeatherDTO
 import com.example.k_01.utils.*
+import com.google.gson.Gson
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Response
+import java.io.IOException
 
 //Наш фрагмент
 class DetailsFragment : Fragment(), OnServerResponse {
@@ -67,16 +75,65 @@ class DetailsFragment : Fragment(), OnServerResponse {
             //    WeatherLoader(this@DetailsFragment).loadWeather(it.сity.lat, it.сity.lon)
             //}.start()
             //старт сервиса вместо WeatherLoader
-            requireActivity().startService(Intent(requireContext(),DetailsService::class.java).apply {
+            /*requireActivity().startService(Intent(requireContext(),DetailsService::class.java).apply {
                 putExtra(KEY_BUNDLE_LAT,it.сity.lat)
                 putExtra(KEY_BUNDLE_LON,it.сity.lon)
             })
+            */
+            getWeather(it.сity.lat, it.сity.lon)
 
         //renderData(it)
         }
 
         //val weather:Weather = requireArguments().getParcelable<Weather>(KEY_BUNDLE_WEATHER)!!
         //renderData(weather)
+    }
+
+    fun getWeather(lat:Double, lon:Double){
+        binding.loadingLayout.visibility = View.VISIBLE  //renderData(Loading)
+
+        val client = OkHttpClient()  //создал клиент
+        val builder = okhttp3.Request.Builder() //создал запрос
+        //добавляем заголовок
+        builder.addHeader(YANDEX_API_KEY,BuildConfig.WEATHER_API_KEY)  //добавлен заголовок в ключ(вся настройка)
+        //добавляем адрес
+        //builder.url("$YANDEX_DOMAIN${YANDEX_ENDPOINT}lat=$lat&lon=$lon")
+        builder.url("$YANDEX_DOMAIN${YANDEX_PATH}=$lat&lon=$lon")
+        val request = builder.build()  //запрос
+        val callback:Callback = object : Callback{
+            override fun onFailure(call: Call, e: IOException) {
+                TODO("Not yet implemented")
+                //renderData()
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+
+                if(response.isSuccessful){
+                    val serverResponse:String = response.body()!!.string()
+                    val weatherDTO: WeatherDTO = Gson().fromJson(serverResponse, WeatherDTO::class.java)
+                    requireActivity().runOnUiThread{
+                        renderData(weatherDTO)
+                    }
+                }else{
+                    TODO("Not yet implemented")
+                }
+            }
+        }
+
+
+        val call = client.newCall(request)
+        Thread{
+            //Выполнение до запроса
+            val response = call.execute()   //выполнение здесь и сейчас
+            // выполнение после запроса с использованием response
+
+        }.start()
+
+        // асинхронный(отложенный вызов) вызов
+        call.enqueue(callback)
+
+
+        binding.loadingLayout.visibility = View.GONE
     }
 
     //По ответу :55 формируем внешний вид приложения
