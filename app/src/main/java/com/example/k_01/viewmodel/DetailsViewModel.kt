@@ -6,7 +6,7 @@ import com.example.k_01.repository.*
 
 class DetailsViewModel (
     private val liveData: MutableLiveData<DetailsState> = MutableLiveData(),
-    private var repository: DetailsRepository = DetailsRepositoryOkHttpImpl()
+    private val repository: DetailsRepository = DetailsRepositoryRetrofit2Impl()
     ):ViewModel(){
 
         fun getLiveData()= liveData

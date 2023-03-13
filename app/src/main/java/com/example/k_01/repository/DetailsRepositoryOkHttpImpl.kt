@@ -4,7 +4,7 @@ import com.example.k_01.BuildConfig
 import com.example.k_01.repository.dto.WeatherDTO
 import com.example.k_01.utils.YANDEX_API_KEY
 import com.example.k_01.utils.YANDEX_DOMAIN
-import com.example.k_01.utils.YANDEX_PATH
+import com.example.k_01.utils.*
 import com.example.k_01.utils.convertDtoModel
 import com.example.k_01.viewmodel.DetailsViewModel
 import com.google.gson.Gson
