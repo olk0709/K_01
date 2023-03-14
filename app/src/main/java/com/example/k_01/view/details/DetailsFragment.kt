@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import coil.api.load
 import com.bumptech.glide.Glide
 import com.example.k_01.databinding.FragmentDetailsBinding
 import com.example.k_01.repository.Weather
@@ -86,8 +87,10 @@ class DetailsFragment : Fragment() {
                         .load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
                         .into(headerIcon)*/
 
-                    Picasso.get()?.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
-                    ?.into(headerIcon)
+                   /* Picasso.get()?.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                    ?.into(headerIcon) */
+
+                    headerIcon.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
 
                 }
             }
