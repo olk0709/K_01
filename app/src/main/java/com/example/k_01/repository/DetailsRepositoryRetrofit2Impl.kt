@@ -29,12 +29,12 @@ class DetailsRepositoryRetrofit2Impl:DetailsRepository {
                         callbackMy.onResponse(weather)
                     }
                 }else{
-                    callbackMy.onFail()
+                    //callbackMy.onFail()
                 }
             }
 
             override fun onFailure(call: Call<WeatherDTO>, t: Throwable) {
-                callbackMy.onFail()
+                //callbackMy.onFail()
             }
 
         })

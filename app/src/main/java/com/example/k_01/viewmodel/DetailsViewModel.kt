@@ -28,7 +28,8 @@ class DetailsViewModel (
             })
         }
     //получение ответа
-    fun interface Callback{
+
+    interface Callback{
         fun onResponse(weather: Weather)
         fun onFail()
     }

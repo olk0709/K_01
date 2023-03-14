@@ -15,6 +15,7 @@ import com.example.k_01.utils.*
 import com.example.k_01.viewmodel.DetailsState
 import com.example.k_01.viewmodel.DetailsViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 
 //фрагмент viewModel
 class DetailsFragment : Fragment() {
@@ -81,9 +82,12 @@ class DetailsFragment : Fragment() {
                     Snackbar.make(mainView,"ПОЛУЧИЛОСЬ", Snackbar.LENGTH_LONG)
                         .show()
 
-                    Glide.with(requireContext())
+                    /*Glide.with(requireContext())
                         .load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
-                        .into(headerIcon)
+                        .into(headerIcon)*/
+
+                    Picasso.get()?.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                    ?.into(headerIcon)
 
                 }
             }
