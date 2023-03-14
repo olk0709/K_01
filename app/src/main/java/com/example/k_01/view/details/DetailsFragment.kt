@@ -5,10 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import coil.ImageLoader
 import coil.api.load
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.k_01.databinding.FragmentDetailsBinding
 import com.example.k_01.repository.Weather
@@ -17,6 +21,7 @@ import com.example.k_01.viewmodel.DetailsState
 import com.example.k_01.viewmodel.DetailsViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import javax.net.ssl.HttpsURLConnection
 
 //фрагмент viewModel
 class DetailsFragment : Fragment() {
@@ -90,12 +95,29 @@ class DetailsFragment : Fragment() {
                    /* Picasso.get()?.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
                     ?.into(headerIcon) */
 
-                    headerIcon.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                    headerCityIcon.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                    icon.loadSvg("https://yastatic..net/weather/i/icons/blueye/color/svg${weather.icon}.svg")
+
 
                 }
             }
         }
 
+
+    }
+    fun  ImageView.loadSvg(url: String){
+        val imageLoader = ImageLoader.Builder(this.context)
+            .componentRegistry{add(SvgDecoder(this@loadSvg.context))}
+            .build()
+
+        val request = ImageRequest.Builder(this.context)
+            .crossfade(true)
+            .crossfade(500)
+            .data(url)
+            .target(this)
+            .build()
+
+        imageLoader.enqueue(request)
 
     }
 
