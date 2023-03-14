@@ -95,7 +95,7 @@ class DetailsFragment : Fragment() {
                    /* Picasso.get()?.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
                     ?.into(headerIcon) */
 
-                    headerCityIcon.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                    //headerCityIcon.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
                     icon.loadSvg("https://yastatic..net/weather/i/icons/blueye/color/svg${weather.icon}.svg")
 
 
