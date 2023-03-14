@@ -54,6 +54,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 
+
+    implementation 'com.squareup.picasso:picasso:2.71828' //Picasso
+    implementation 'io.coil-kt:coil:0.11.0'//Coil
+    implementation 'com.github.bumptech.glide:glide:4.11.0'//Glide
+
     implementation 'com.google.code.gson:gson:2.8.5'
 
     implementation 'androidx.core:core-ktx:1.9.0'

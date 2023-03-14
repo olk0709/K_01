@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.k_01.databinding.FragmentDetailsBinding
 import com.example.k_01.repository.Weather
 import com.example.k_01.utils.*
@@ -68,7 +69,7 @@ class DetailsFragment : Fragment() {
 
         when(detailsState){
             is DetailsState.Error -> TODO()
-            DetailsState.Loading -> TODO()
+              DetailsState.Loading -> TODO()
             is DetailsState.Success -> {
                 val weather = detailsState.weather
                 with(binding){
@@ -79,6 +80,11 @@ class DetailsFragment : Fragment() {
                     cityCoordinates.text= "${weather.сity.lat} ${weather.сity.lon}"
                     Snackbar.make(mainView,"ПОЛУЧИЛОСЬ", Snackbar.LENGTH_LONG)
                         .show()
+
+                    Glide.with(requireContext())
+                        .load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                        .into(headerIcon)
+
                 }
             }
         }

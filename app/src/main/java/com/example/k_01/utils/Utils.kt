@@ -24,5 +24,5 @@ class Utils {
 
 fun convertDtoModel(weatherDTO: WeatherDTO): Weather{
     val fact: FactDTO = weatherDTO.factDTO
-    return Weather(getDefaultCity(), fact.temperature, fact.feels_like)
+    return (Weather(getDefaultCity(),fact.temperature, fact.feels_like, fact.icon))
 }

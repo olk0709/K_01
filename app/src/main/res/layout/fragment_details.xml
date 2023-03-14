@@ -6,12 +6,23 @@
     android:background="@color/white"
 
     android:layout_height="match_parent">
-    <!-- TODO HW android:clickable="true" -->
+    <!-- TODO android:clickable="true" -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/headerIcon"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
         <TextView
             android:id="@+id/cityName"
             android:layout_width="wrap_content"
@@ -21,7 +32,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/headerIcon"
             tools:text="Москва" />
         <TextView
             android:id="@+id/cityCoordinates"
