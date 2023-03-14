@@ -1,24 +1,30 @@
 package com.example.k_01.view.details
 
 import android.annotation.SuppressLint
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import coil.ImageLoader
+import coil.api.load
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
+import com.bumptech.glide.Glide
 import com.example.k_01.databinding.FragmentDetailsBinding
-import com.example.k_01.repository.OnServerResponse
 import com.example.k_01.repository.Weather
-import com.example.k_01.repository.dto.WeatherDTO
 import com.example.k_01.utils.*
+import com.example.k_01.viewmodel.DetailsState
+import com.example.k_01.viewmodel.DetailsViewModel
+import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
+import javax.net.ssl.HttpsURLConnection
 
-//Наш фрагмент
-class DetailsFragment : Fragment(), OnServerResponse {
+//фрагмент viewModel
+class DetailsFragment : Fragment() {
 
     // создаем livedata
     private var _binding:FragmentDetailsBinding?=null
@@ -30,81 +36,90 @@ class DetailsFragment : Fragment(), OnServerResponse {
     override fun onDestroy(){
         super.onDestroy()
         _binding = null   //нашли, как занулить(
-        LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(receiver)
     }
 
-    //создаем приемник
-    val receiver = object :BroadcastReceiver(){
-        override fun onReceive(context: Context?, intent: Intent?){
-            intent?.let {intent ->
-                intent.getParcelableExtra<WeatherDTO>(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)?.let {
-                    onResponse(it)
-                }
-
-            }
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailsBinding.inflate(inflater, container, false)
-
-        //return inflater.inflate(R.layout.fragment_main, container, false)
         return binding.root
     }
-    lateinit var currentCityName:String
+
+    private val viewModel:DetailsViewModel by lazy {
+        ViewModelProvider(this).get(DetailsViewModel::class.java)
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//Фрагмент получает viewModel
+        viewModel.getLiveData().observe(viewLifecycleOwner,object :Observer<DetailsState>{
+            override fun onChanged(t: DetailsState) {
+                //отрисовка LiveData
+                renderData(t)
+            }
+        })
 
-        LocalBroadcastManager.getInstance(requireContext()).registerReceiver(receiver,
-        IntentFilter(KEY_WAVE_SERVICE_BROADCAST)
-        )
+
         arguments?.getParcelable<Weather>(KEY_BUNDLE_WEATHER)?.let{
-            currentCityName = it.сity.name
-            //Thread{
-            //    WeatherLoader(this@DetailsFragment).loadWeather(it.сity.lat, it.сity.lon)
-            //}.start()
-            //старт сервиса вместо WeatherLoader
-            requireActivity().startService(Intent(requireContext(),DetailsService::class.java).apply {
-                putExtra(KEY_BUNDLE_LAT,it.сity.lat)
-                putExtra(KEY_BUNDLE_LON,it.сity.lon)
-            })
-
-        //renderData(it)
+            viewModel.getWeather(it.сity)
         }
 
-        //val weather:Weather = requireArguments().getParcelable<Weather>(KEY_BUNDLE_WEATHER)!!
-        //renderData(weather)
     }
 
-    //По ответу :55 формируем внешний вид приложения
+
 
     @SuppressLint("SetTextI18n")
-    private fun renderData(weather: WeatherDTO){
-        with(binding){
-            loadingLayout.visibility = View.GONE
-            cityName.text= currentCityName
-            with(weather){
-                temperatureValue.text = weather.factDTO.temperature.toString()
-                feelsLikeValue.text = weather.factDTO.feels_like.toString()
-                cityCoordinates.text= "${weather.infoDTO.lat} ${weather.infoDTO.lon}"
-            }
-            //Snackbar.make(mainView, "Получилось", Snackbar.LENGTH_LONG).show()
-            //mainView.showSnackBar()
-        }
-    }
+    private fun renderData(detailsState: DetailsState){
 
-    /*private fun renderData(weather:WeatherDTO){
-        binding.loadingLayout.visibility = View.GONE
-        binding.cityName.text=localWeather.сity.name.toString()
-        binding.temperatureValue.text = weather.factDTO.temperature.toString()
-        binding.feelsLikeValue.text = weather.feelsLike.toString()
-        binding.cityCoordinates.text = "${weather.сity.lat} ${weather.сity.lon}"
-        //Snackbar.make(binding.mainView, "Получилось", Snackbar.LENGTH_LONG).show()
-        // Toast.makeText(requireContext(),"Работает", Toast.LENGTH_SHORT).show()
-    }*/
+        when(detailsState){
+            is DetailsState.Error -> TODO()
+              DetailsState.Loading -> TODO()
+            is DetailsState.Success -> {
+                val weather = detailsState.weather
+                with(binding){
+                    loadingLayout.visibility = View.GONE
+                    cityName.text = weather.сity.name
+                    temperatureValue.text = weather.temperature.toString()
+                    feelsLikeValue.text = weather.feelsLike.toString()
+                    cityCoordinates.text= "${weather.сity.lat} ${weather.сity.lon}"
+                    Snackbar.make(mainView,"ПОЛУЧИЛОСЬ", Snackbar.LENGTH_LONG)
+                        .show()
+
+                    /*Glide.with(requireContext())
+                        .load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                        .into(headerIcon)*/
+
+                   /* Picasso.get()?.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                    ?.into(headerIcon) */
+
+                    //headerCityIcon.load("https://freepngimg.com/thmb/city/36275-3-city-hd.png")
+                    icon.loadSvg("https://yastatic..net/weather/i/icons/blueye/color/svg${weather.icon}.svg")
+
+
+                }
+            }
+        }
+
+
+    }
+    fun  ImageView.loadSvg(url: String){
+        val imageLoader = ImageLoader.Builder(this.context)
+            .componentRegistry{add(SvgDecoder(this@loadSvg.context))}
+            .build()
+
+        val request = ImageRequest.Builder(this.context)
+            .crossfade(true)
+            .crossfade(500)
+            .data(url)
+            .target(this)
+            .build()
+
+        imageLoader.enqueue(request)
+
+    }
 
     companion object {
         @JvmStatic
@@ -116,7 +131,4 @@ class DetailsFragment : Fragment(), OnServerResponse {
         }
     }
 
-    override fun onResponse(weatherDTO: WeatherDTO) {
-        renderData(weatherDTO)
-    }
 }
