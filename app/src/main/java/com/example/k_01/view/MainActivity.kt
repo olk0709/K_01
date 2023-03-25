@@ -3,11 +3,13 @@ package com.example.k_01.view
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import com.example.k_01.MyApp
 import com.example.k_01.R
-import com.example.k_01.repository.CitiesRepositoryRetrofit2Impl
 import com.example.k_01.utils.KEY_SP_FILE_NAME_1
 import com.example.k_01.utils.KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN
+import com.example.k_01.view.weatherlist.HistoryWeatherListFragment
 import com.example.k_01.view.weatherlist.WeatherListFragment
 
 class MainActivity : AppCompatActivity() {
@@ -33,5 +35,24 @@ class MainActivity : AppCompatActivity() {
 
         MyApp.getHistoryDao().getAll()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.action_threads->{
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, HistoryWeatherListFragment.newInstance()).addToBackStack("").commit()
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
 
 }

@@ -5,6 +5,7 @@ import androidx.room.*
 // интерфейс с запросами к таблице
 @Dao
 interface HistoryDao {
+
     @Query( "INSERT INTO history_table (city, temperature, feelsLike, icon) VALUES(:city, :temperature, :feelsLike, :icon)")
 
     fun nativeInsert(city: String, temperature: Int, feelsLike: Int, icon: String)

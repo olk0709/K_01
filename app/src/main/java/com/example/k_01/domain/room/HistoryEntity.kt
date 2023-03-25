@@ -11,7 +11,7 @@ data class HistoryEntity(
     @PrimaryKey(autoGenerate = true)
     val id:Long,
     val city: String,
-    val template: Int,
+    val temperature: Int,
     val feelsLike: Int,
     val icon:String
 )

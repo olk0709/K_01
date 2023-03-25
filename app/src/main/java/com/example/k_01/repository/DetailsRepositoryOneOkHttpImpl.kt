@@ -9,10 +9,8 @@ import com.example.k_01.utils.convertDtoModel
 import com.example.k_01.viewmodel.DetailsViewModel
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.io.IOException
 
-class DetailsRepositoryOkHttpImpl:DetailsRepository {
+class DetailsRepositoryOneOkHttpImpl:DetailsRepositoryOne {
     override fun getWeatherDetails(city: City, callback: DetailsViewModel.Callback) {
 
         val client = OkHttpClient()  //создал клиент

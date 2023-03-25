@@ -16,6 +16,7 @@ class MainViewModel(
         return liveData
     }
 
+
     fun getWeatherRussia() = getWeather(true)
     fun getWeatherWorld() = getWeather(false)
 
