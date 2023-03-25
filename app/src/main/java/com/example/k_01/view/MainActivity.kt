@@ -3,6 +3,7 @@ package com.example.k_01.view
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.k_01.MyApp
 import com.example.k_01.R
 import com.example.k_01.repository.CitiesRepositoryRetrofit2Impl
 import com.example.k_01.utils.KEY_SP_FILE_NAME_1
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         val defaultValueIsRussian = true
         sp.getBoolean(KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN, defaultValueIsRussian)
+
+        MyApp.getHistoryDao().getAll()
     }
 
 }
