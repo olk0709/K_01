@@ -1,6 +1,9 @@
 package com.example.k_01.view.details
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +12,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import coil.ImageLoader
 import coil.api.load
 import coil.decode.SvgDecoder
@@ -16,6 +20,7 @@ import coil.request.ImageRequest
 import com.bumptech.glide.Glide
 import com.example.k_01.databinding.FragmentDetailsBinding
 import com.example.k_01.repository.Weather
+import com.example.k_01.repository.dto.WeatherDTO
 import com.example.k_01.utils.*
 import com.example.k_01.viewmodel.DetailsState
 import com.example.k_01.viewmodel.DetailsViewModel
@@ -36,8 +41,21 @@ class DetailsFragment : Fragment() {
     override fun onDestroy(){
         super.onDestroy()
         _binding = null   //нашли, как занулить(
+       // LocalBroadcastManager.getInstance(requireContext()).unregisterReceiver(receiver)
     }
 
+    /*
+    private val receiver = object :BroadcastReceiver(){
+        override fun onReceive(context: Context?, intent: Intent?) {
+                intent?.let { intent ->
+                    intent.getParcelableExtra(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)?.let {
+                        onResponse(it)
+                    }
+                }
+        }
+
+    }
+*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
