@@ -8,5 +8,6 @@
     <string name="city_coordinates">lt/ln: %s, %s"</string>
     <string name="error">Error</string>
     <string name="relload">Reload</string>
+    <string name="work_with_content_provider">WWCP</string>
 
 </resources>
