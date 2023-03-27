@@ -2,13 +2,16 @@ package com.example.k_01.lesson9
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.ContentResolver
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.k_01.databinding.FragmentWorkWithContentProviderBinding
@@ -95,7 +98,28 @@ class WorkWithContentProviderFragment : Fragment() {
     }
 
     private fun getContacts() {
-        TODO("Not yet implemented")
+        val contentResolver: ContentResolver = requireContext().contentResolver
+
+        val cursor = contentResolver.query(
+            ContactsContract.Contacts.CONTENT_URI,
+            null,
+            null,
+            null,
+            ContactsContract.Contacts.DISPLAY_NAME+"ASC")
+
+        cursor?.let {
+            for (i in 0 until it.count ){
+                if (cursor.moveToPosition(i)){
+                    val columnNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
+                    val name:String = cursor.getString(columnNameIndex)
+                    binding.containerFromContacts.addView(TextView(requireContext()).apply {
+                        textSize = 30f
+                        text = name
+                    })
+                }
+            }
+        }
+
     }
 
     class MyTheads:Thread(){
