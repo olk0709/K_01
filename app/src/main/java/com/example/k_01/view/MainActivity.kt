@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.fragment.app.Fragment
 import com.example.k_01.MyApp
 import com.example.k_01.R
 import com.example.k_01.utils.KEY_SP_FILE_NAME_1
@@ -44,13 +45,19 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.action_threads->{
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.container, HistoryWeatherListFragment.newInstance()).addToBackStack("").commit()
+               navigate(HistoryWeatherListFragment.newInstance())
             }
 
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun navigate(fragment: Fragment){
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, fragment)
+            .addToBackStack("")
+            .commit()
     }
 
 
