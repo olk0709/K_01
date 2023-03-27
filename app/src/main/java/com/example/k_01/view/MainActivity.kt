@@ -8,6 +8,8 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import com.example.k_01.MyApp
 import com.example.k_01.R
+import com.example.k_01.databinding.FragmentWorkWithContentProviderBinding
+import com.example.k_01.lesson9.WorkWithContentProviderFragment
 import com.example.k_01.utils.KEY_SP_FILE_NAME_1
 import com.example.k_01.utils.KEY_SP_FILE_NAME_1_KEY_IS_RUSSIAN
 import com.example.k_01.view.weatherlist.HistoryWeatherListFragment
@@ -46,6 +48,10 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.action_threads->{
                navigate(HistoryWeatherListFragment.newInstance())
+            }
+
+            R.id.action_work_with_content_provider->{
+                navigate(WorkWithContentProviderFragment.newInstance())
             }
 
         }
