@@ -3,15 +3,19 @@ package com.example.k_01.lesson9
 import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentResolver
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.ContactsContract
+import android.provider.SimPhonebookContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.k_01.databinding.FragmentWorkWithContentProviderBinding
@@ -71,6 +75,7 @@ class WorkWithContentProviderFragment : Fragment() {
     }
 
     val REQUEST_CODE= 999
+    val MY_PERMISSIONS_REQUEST_CALL_PHONE = 1
     private fun mRequestPermission() {
         requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS),REQUEST_CODE)
     }
@@ -111,15 +116,35 @@ class WorkWithContentProviderFragment : Fragment() {
             for (i in 0 until it.count ){
                 if (cursor.moveToPosition(i)){
                     val columnNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME)
-                    val name:String = cursor.getString(columnNameIndex)
+                    val phone:String = cursor.getString(columnNameIndex)
                     binding.containerFromContacts.addView(TextView(requireContext()).apply {
                         textSize = 30f
-                        text = name
+                        text = phone.toString()
+                        setOnClickListener{
+                            makeCall(phone)
+                        }
                     })
                 }
             }
         }
 
+    }
+
+    fun makeCall(phone:String){
+        val intent =
+            Intent(Intent.ACTION_CALL, Uri.fromParts("tel", phone, null))
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.CALL_PHONE
+            ) != PackageManager.PERMISSION_GRANTED
+        ){
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CALL_PHONE), MY_PERMISSIONS_REQUEST_CALL_PHONE
+            )
+        }else{
+            startActivity(intent)
+        }
     }
 
     class MyTheads:Thread(){
