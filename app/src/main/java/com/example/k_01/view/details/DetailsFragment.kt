@@ -45,17 +45,17 @@ class DetailsFragment : Fragment() {
     }
 
     /*
-    private val receiver = object :BroadcastReceiver(){
+    private   val receiver = object :BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
                 intent?.let { intent ->
-                    intent.getParcelableExtra(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)?.let {
+                    intent.getParcelableExtra<WeatherDTO>(KEY_BUNDLE_SERVICE_BROADCAST_WEATHER)?.let {
                         onResponse(it)
                     }
                 }
         }
 
-    }
-*/
+    }*/
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

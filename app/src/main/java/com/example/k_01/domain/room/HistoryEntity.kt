@@ -1,8 +1,6 @@
 package com.example.k_01.domain.room
 
-import android.service.controls.templates.TemperatureControlTemplate
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 
 //создана таблица
 
